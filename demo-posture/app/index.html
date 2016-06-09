@@ -1,0 +1,104 @@
+
+<!--
+
+Starting from project root dir:
+
+C:\Users\rstaudi\Devel\twoinone-demo-2>..\crosswalk64-19.48.502.0\xwalk.exe
+    --external-extensions-path=C:\Users\rstaudi\Devel\twoinone-demo-2\twoinone-extension
+    app\manifest.json
+
+-->
+
+<html>
+    <head>
+        <style>
+            .element {
+              position: relative;
+              top: 50%;
+              transform: translateY(-50%);
+              text-align: center;
+            }
+        </style>
+        <script>
+            var _icons = ["icon-laptop.png", "icon-tablet.png"];
+            var _i = 0;
+            function fade(img, sign, callback) {
+
+                sign = sign > 0 ? 1 : -1;
+                var period = 1000 / 60; // 60 Hz
+                var step = 1 / (250 / period);
+
+                function fadeCb() {
+                    console.log(img.style.opacity);
+                    if (sign > 0 && img.style.opacity === "1" ||
+                        sign < 0 && img.style.opacity === "0") {
+                        if (callback)
+                            callback();
+                        return;
+                    } else if (sign > 0) {
+                        if (img.style.opacity + step > 1) {
+                            img.style.opacity = 1;
+                        } else {
+                            img.style.opacity = parseFloat(img.style.opacity) + step;
+                        }
+                    } else if (sign < 0) {
+                        if (img.style.opacity - step < 0) {
+                            img.style.opacity = 0;
+                        } else {
+                            img.style.opacity = parseFloat(img.style.opacity) - step;
+                        }
+                    }
+                    window.setTimeout(fadeCb, period);
+                }
+                window.setTimeout(fadeCb, period);
+            }
+
+            function test() {
+                _i++;
+                var img = document.getElementById("icon");
+                fade(img, -1, function() {
+                    img.src = _icons[_i % 2];
+                    fade(img, 1, function() {});
+                });
+            }
+            function init() {
+                var img = document.getElementById("icon");
+                img.src = _icons[_i];
+                img.style.opacity = 1.0;
+            }
+        </script>
+    </head>
+    <body onload="init()" style="background-color: #0071c5">
+        <input id="keyboard" type="button" value="Test" />
+        <input id="tablet" type="button" value="Tablet?" onclick="queryTablet()" />
+        <script>
+            twoinone.monitorKeyboard(function (haveKeyboard) {
+                document.getElementById('keyboard').value = haveKeyboard ?
+                                                            "hardware keyboard attached" :
+                                                            "no keyboard";
+            });
+            
+            function queryTablet() {
+                var isTablet = twoinone.isTablet();
+                document.getElementById('tablet').value = isTablet ? "tablet: yes" : "tablet : no";
+            }
+            
+        </script>
+        <p>
+        Status of &quot;twoinone&quot; extension: <input style="border:none; background-color: 0071c5; color: black;" id="status" type="text" value="" readonly>
+        <script>
+            var status = 'loading failed';
+            try {
+                status = twoinone ? "loaded" : "";
+                twoinone.log(function(msg) {
+                    // alert(msg);
+                });
+            } catch (e) {
+                
+            }
+            document.getElementById('status').value = status;
+        </script>
+    </p>
+        <div class="element"><img id="icon" onclick="test()"/></div>
+    </body>
+</html>

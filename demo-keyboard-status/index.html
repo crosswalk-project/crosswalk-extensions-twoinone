@@ -1,0 +1,39 @@
+
+<html>
+<head>
+    <style>
+        * {
+            font-family: Calibri, sans-serif
+        }
+        input, p {
+            font-size: larger
+        }
+    </style>
+</head>
+<body>
+    <img src="icon.png" style="float:right" />
+    <h3>Crosswalk Project <a href="http://crosswalk-project.org">http://crosswalk-project.org</a></h3>
+    <h1>Keyboard Monitor Extension</h1>
+
+    <p>
+        Status of &quot;twoinone&quot; extension: <input style="border:none" id="status" type="text" value="" readonly>
+        <script>
+            document.getElementById('status').value = twoinone ? 'ready' : 'loading failed';
+        </script>
+    </p>
+    <p>
+        Status of keyboard watcher: <input style="border:none; font-weight: bold; color: red" id="keyboard" type="text" value="loading ..." size="30" readonly>
+        <script>
+            twoinone.monitorKeyboard(function (haveKeyboard) {
+                document.getElementById('keyboard').value = haveKeyboard ?
+                                                            "hardware keyboard attached" :
+                                                            "no keyboard";
+            });
+        </script>
+    </p>
+    <p>
+        <input type="button" onclick="alert(twoinone.haveKeyboard())" value="Query Keyboard Availability">
+    </p>
+        Run: xwalk.exe --allow-external-extensions-for-remote-sources --external-extensions-path=&lt;path&gt;twoinone-extension manifest.json
+</body>
+</html>
