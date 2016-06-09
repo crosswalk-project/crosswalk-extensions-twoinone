@@ -104,6 +104,8 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MonitorInterface.cs" />
+    <Compile Include="TabletMontitor.cs" />
     <Compile Include="KeyboardMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XWalkExtension.cs" />

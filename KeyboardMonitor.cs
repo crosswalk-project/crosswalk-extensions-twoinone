@@ -7,7 +7,7 @@ using Windows.Devices.Enumeration;
 
 namespace xwalk
 {
-    class KeyboardMonitor
+    class KeyboardMonitor : twoinone.MonitorInterface
     {
         public KeyboardResponse MonitorKeyboardDelegate;
         public KeyboardResponse QueryKeyboardDelegate;
@@ -40,7 +40,7 @@ namespace xwalk
             _dw.Start();
         }
 
-        public void MonitorKeyboard()
+        public void startMonitor()
         {
             if (_dw != null)
             {
@@ -77,7 +77,7 @@ namespace xwalk
             }
         }
 
-        public void Stop()
+        public void stopMonitor()
         {
             _dw.Stop();
         }

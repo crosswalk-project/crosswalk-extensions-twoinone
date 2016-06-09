@@ -15,7 +15,7 @@ namespace xwalk
             native_ = native;
             _keyboardMonitor = new KeyboardMonitor();
             _keyboardMonitor.MonitorKeyboardDelegate = onMonitorKeyboard;
-            _keyboardMonitor.MonitorKeyboard();
+            _keyboardMonitor.startMonitor();
         }
 
         public void HandleMessage(String message)
