@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace twoinone
+namespace xwalk
 {
-    class TabletMontitor : MonitorInterface
+    class TabletMonitor : MonitorInterface
     {
-        public ModeResponse ModeDelegate;
-        public delegate void ModeResponse(bool inSlateMode);
+        public ModeResponse MonitorTabletDelegate;
+        public delegate void ModeResponse(bool isTablet);
 
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -17,32 +17,32 @@ namespace twoinone
         private const int SM_CONVERTABLESLATEMODE = 0x2003;
 
         private System.Threading.Timer _timer = null;
-        private bool _inTabletMode = false;
+        private bool _isTablet = false;
 
-        public TabletMontitor()
+        public TabletMonitor()
         {
         }
 
-        public bool InTabletMode
+        public bool IsTablet
         {
             get
             {
                 bool tm = GetSystemMetrics(SM_CONVERTABLESLATEMODE) == 0;
-                if (_inTabletMode != tm)
+                if (_isTablet != tm)
                 {
-                    _inTabletMode = tm;
-                    ModeDelegate(_inTabletMode);
+                    _isTablet = tm;
+                    MonitorTabletDelegate(_isTablet);
                 }
-                return _inTabletMode;
+                return _isTablet;
             }
         }
 
-        public void startMonitor()
+        public void start()
         {
             _timer = new System.Threading.Timer(timerCb, null, 500, System.Threading.Timeout.Infinite);
         }
 
-        public void stopMonitor()
+        public void stop()
         {
             _timer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
             _timer.Dispose();
@@ -56,7 +56,7 @@ namespace twoinone
 
         private void timerCb(object state)
         {
-            _inTabletMode = this.InTabletMode;
+            _isTablet = this.IsTablet;
         }
     }
 }

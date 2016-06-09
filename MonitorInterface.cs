@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace twoinone
+namespace xwalk
 {
     interface MonitorInterface
     {
-        void startMonitor();
-        void stopMonitor();
+        void start();
+        void stop();
         bool isRunning();
     }
 }
