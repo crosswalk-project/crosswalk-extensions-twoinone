@@ -12,6 +12,12 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>..\..\crosswalk64-19.48.5
 <html>
     <head>
         <style>
+            body {
+                background-image: url("crosswalkproject-logo-horizontal-light.png");
+                background-repeat: no-repeat;
+                background-position: right top;
+
+            }
             .element {
               position: relative;
               top: 50%;
@@ -70,9 +76,11 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>..\..\crosswalk64-19.48.5
                 img.style.opacity = 1.0;
                 
                 if (twoinone) {
-                    twoinone.monitorTablet(function (isTablet) {
-                        
-                        var img = document.getElementById("icon");
+                    
+                    var img = document.getElementById("icon");
+                    img.src = twoinone.isTablet() ? "icon-tablet.png" : "icon-laptop.png";
+
+                    twoinone.monitorTablet(function (isTablet) {                        
                         fade(img, -1, function() {
                             img.src = isTablet ? "icon-tablet.png" : "icon-laptop.png";
                             fade(img, 1, function() {});
@@ -84,38 +92,38 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>..\..\crosswalk64-19.48.5
     </head>
     <body onload="main()" style="background-color: #0071c5">
 
-        <img src="crosswalkproject-logo-horizontal-light.png" style="float: right; width: 200px; height: auto" />
-
-        Status of &quot;twoinone&quot; extension: <input style="border:none; background-color: #0071c5; color: black;" id="status" type="text" value="" readonly>
-        <script>
-            var status = 'loading failed';
-            try {
-                status = twoinone ? "loaded" : "";
-                twoinone.log(function(msg) {
-                    // alert(msg);
+        <div style="position: absolute; bottom: 10px">
+            Status of &quot;twoinone&quot; extension: <input style="border:none; background-color: #0071c5; color: black;" id="status" type="text" value="" readonly>
+            <script>
+                var status = 'loading failed';
+                try {
+                    status = twoinone ? "loaded" : "";
+                    twoinone.log(function(msg) {
+                        // alert(msg);
+                    });
+                } catch (e) {
+                    
+                }
+                document.getElementById('status').value = status;
+            </script>
+            <br />
+            <input id="keyboard" type="button" value="Test" />
+            <input id="tablet" type="button" value="Emulate Tablet Mode Switch" onclick="emulateTablet()" />
+            <script>
+                twoinone.monitorKeyboard(function (haveKeyboard) {
+                    document.getElementById('keyboard').value = haveKeyboard ?
+                                                                "hardware keyboard attached" :
+                                                                "no keyboard";
                 });
-            } catch (e) {
                 
-            }
-            document.getElementById('status').value = status;
-        </script>
-        <br />
-        <input id="keyboard" type="button" value="Test" />
-        <input id="tablet" type="button" value="Tablet?" onclick="queryTablet()" />
-        <script>
-            twoinone.monitorKeyboard(function (haveKeyboard) {
-                document.getElementById('keyboard').value = haveKeyboard ?
-                                                            "hardware keyboard attached" :
-                                                            "no keyboard";
-            });
-            
-            function queryTablet() {
-                var isTablet = twoinone.isTablet();
-                document.getElementById('tablet').value = isTablet ? "tablet: yes" : "tablet : no";
-            }
-            
-        </script>
-
+                function emulateTablet() {
+                    var isTablet = twoinone.isTablet();
+                    twoinone.emulator.setIsTablet(!isTablet);
+                }
+                
+            </script>
+        </div>
+        
         <div class="element"><img id="icon" onclick="test()"/></div>
 
     </body>

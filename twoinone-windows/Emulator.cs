@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace twoinone
+namespace xwalk
 {
     class Emulator
     {
@@ -14,38 +14,19 @@ namespace twoinone
         public delegate void TabletResponse(bool inTabletMode);
         public TabletResponse TabletMonitorDelegate;
 
-        private bool _haveKeyboard;
-        private bool _inTabletMode;
-
         public bool HaveKeyboard
         {
-            get
-            {
-                return _haveKeyboard;
-            }
             set
             {
-                if (value != _haveKeyboard)
-                {
-                    _haveKeyboard = value;
-                    KeyboardMonitorDelegate(_haveKeyboard);
-                }
+                KeyboardMonitorDelegate(value);
             }
         }
 
-        public bool InTabletMode
+        public bool IsTablet
         {
-            get
-            {
-                return _inTabletMode;
-            }
             set
             {
-                if (value != _inTabletMode)
-                {
-                    _inTabletMode = value;
-                    TabletMonitorDelegate(_inTabletMode);
-                }
+                TabletMonitorDelegate(value);
             }
         }
     }

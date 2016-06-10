@@ -43,8 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Emulator.cs" />
     <Compile Include="MonitorInterface.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="TwoinoneTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TabletMonitor.cs" />
   </ItemGroup>

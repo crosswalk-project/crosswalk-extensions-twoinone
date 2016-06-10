@@ -19,8 +19,23 @@ namespace xwalk
         private System.Threading.Timer _timer = null;
         private bool _isTablet = false;
 
-        public TabletMonitor()
+        Emulator _emulator;
+
+        public TabletMonitor(Emulator emulator)
         {
+            _emulator = emulator;
+            emulator.TabletMonitorDelegate = onEmulatorTabletMonitorChange;
+
+            _isTablet = GetSystemMetrics(SM_CONVERTABLESLATEMODE) == 0;
+        }
+
+        private void onEmulatorTabletMonitorChange(bool isTablet)
+        {
+            if (isTablet != _isTablet)
+            {
+                _isTablet = isTablet;
+                TabletModeDelegate(_isTablet);
+            }
         }
 
         public bool IsTablet

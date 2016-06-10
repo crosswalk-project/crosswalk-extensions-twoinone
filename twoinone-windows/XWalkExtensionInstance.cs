@@ -10,15 +10,19 @@ namespace xwalk
     {
         private KeyboardMonitor _keyboardMonitor;
         private TabletMonitor _tabletMonitor;
+        private Emulator _emulator;
 
         public XWalkExtensionInstance(dynamic native)
         {
             native_ = native;
+
+            _emulator = new Emulator();
+
             _keyboardMonitor = new KeyboardMonitor();
             _keyboardMonitor.KeyboardModeMonitorDelegate = onMonitorKeyboard;
             _keyboardMonitor.start();
 
-            _tabletMonitor = new TabletMonitor();
+            _tabletMonitor = new TabletMonitor(_emulator);
             _tabletMonitor.TabletModeDelegate = onMonitorTablet;
             _tabletMonitor.start();
         }
@@ -38,6 +42,12 @@ namespace xwalk
             else if (message == "queryTablet()")
             {
                 result = _tabletMonitor.IsTablet ? "true" : "false";
+            }
+            else if (message.StartsWith("emulateSetIsTablet()"))
+            {
+                string payload = message.Substring("emulateSetIsTablet()".Length);
+                result = _tabletMonitor.IsTablet ? "true" : "false";
+                _emulator.IsTablet = (payload == "true");
             }
             native_.SendSyncReply(result);
         }

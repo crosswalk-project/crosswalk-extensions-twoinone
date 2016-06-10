@@ -8,8 +8,8 @@ namespace xwalk
 {
     class TabletMonitor : MonitorInterface
     {
-        public ModeResponse MonitorTabletDelegate;
-        public delegate void ModeResponse(bool isTablet);
+        public delegate void TabletMode(bool isTablet);
+        public TabletMode TabletModeDelegate;
 
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -19,8 +19,23 @@ namespace xwalk
         private System.Threading.Timer _timer = null;
         private bool _isTablet = false;
 
-        public TabletMonitor()
+        Emulator _emulator;
+
+        public TabletMonitor(Emulator emulator)
         {
+            _emulator = emulator;
+            emulator.TabletMonitorDelegate = onEmulatorTabletMonitorChange;
+
+            _isTablet = GetSystemMetrics(SM_CONVERTABLESLATEMODE) == 0;
+        }
+
+        private void onEmulatorTabletMonitorChange(bool isTablet)
+        {
+            if (isTablet != _isTablet)
+            {
+                _isTablet = isTablet;
+                TabletModeDelegate(_isTablet);
+            }
         }
 
         public bool IsTablet
@@ -31,7 +46,7 @@ namespace xwalk
                 if (_isTablet != tm)
                 {
                     _isTablet = tm;
-                    MonitorTabletDelegate(_isTablet);
+                    TabletModeDelegate(_isTablet);
                 }
                 return _isTablet;
             }

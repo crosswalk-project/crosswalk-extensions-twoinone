@@ -69,6 +69,14 @@ namespace xwalk
                 exports.monitorTablet = function(callback) {
                     _tabletListener = callback;
                 };
+
+                // Emulator
+
+                exports.emulator = {};
+
+                exports.emulator.setIsTablet = function(isTablet) {
+                    extension.internal.sendSyncMessage(""emulateSetIsTablet()"" + (isTablet ? ""true"" : ""false""));
+                };
                 ";
         }
     }
