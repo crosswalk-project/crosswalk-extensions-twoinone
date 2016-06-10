@@ -20,8 +20,7 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>..\..\crosswalk64-19.48.5
             }
         </style>
         <script>
-            var _icons = ["icon-laptop.png", "icon-tablet.png"];
-            var _i = 0;
+
             function fade(img, sign, callback) {
 
                 sign = sign > 0 ? 1 : -1;
@@ -53,6 +52,8 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>..\..\crosswalk64-19.48.5
                 window.setTimeout(fadeCb, period);
             }
 
+            var _icons = ["icon-laptop.png", "icon-tablet.png"];
+            var _i = 0;
             function test() {
                 _i++;
                 var img = document.getElementById("icon");
@@ -61,14 +62,27 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>..\..\crosswalk64-19.48.5
                     fade(img, 1, function() {});
                 });
             }
-            function init() {
+            
+            function main() {
+                
                 var img = document.getElementById("icon");
                 img.src = _icons[_i];
                 img.style.opacity = 1.0;
+                
+                if (twoinone) {
+                    twoinone.monitorTablet(function (isTablet) {
+                        
+                        var img = document.getElementById("icon");
+                        fade(img, -1, function() {
+                            img.src = isTablet ? "icon-tablet.png" : "icon-laptop.png";
+                            fade(img, 1, function() {});
+                        });
+                    });
+                }
             }
         </script>
     </head>
-    <body onload="init()" style="background-color: #0071c5">
+    <body onload="main()" style="background-color: #0071c5">
 
         <img src="crosswalkproject-logo-horizontal-light.png" style="float: right; width: 200px; height: auto" />
 
