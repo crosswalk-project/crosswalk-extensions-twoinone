@@ -9,9 +9,9 @@ namespace xwalk
 {
     class KeyboardMonitor : MonitorInterface
     {
-        public KeyboardResponse MonitorKeyboardDelegate;
-        public KeyboardResponse QueryKeyboardDelegate;
-        public delegate void KeyboardResponse(bool haveKeyboard);
+        public delegate void KeyboardMode(bool haveKeyboard);
+        public KeyboardMode KeyboardModeMonitorDelegate;
+        public KeyboardMode KeyboardModeQueryDelegate;
 
         private DeviceWatcher _dw = null;
         private Dictionary<string, bool> _keyboardDevices = new Dictionary<string, bool>();
@@ -97,7 +97,7 @@ namespace xwalk
                 diu.Properties.TryGetValue("System.Devices.InterfaceEnabled", out isEnabled);
                 bool enabled = isEnabled.ToString().ToLower() == "true";
                 _keyboardDevices[GuidFromId(diu.Id)] = enabled;
-                MonitorKeyboardDelegate(enabled);
+                KeyboardModeMonitorDelegate(enabled);
             }
         }
 
@@ -120,7 +120,7 @@ namespace xwalk
                 // Only notify if removed device was enabled
                 if (enabled)
                 {
-                    MonitorKeyboardDelegate(false);
+                    KeyboardModeMonitorDelegate(false);
                 }
             }
         }
@@ -131,12 +131,12 @@ namespace xwalk
 
             if (_isQuery)
             {
-                QueryKeyboardDelegate(this.HaveKeyboard);
+                KeyboardModeQueryDelegate(this.HaveKeyboard);
                 _dw.Stop();
             }
             else
             {
-                MonitorKeyboardDelegate(this.HaveKeyboard);
+                KeyboardModeMonitorDelegate(this.HaveKeyboard);
             }
         }
 
@@ -153,7 +153,7 @@ namespace xwalk
                 // Only notify if monitoring, otherwise this happens only in enumeration-completed
                 if (!_isQuery)
                 {
-                    MonitorKeyboardDelegate(di.IsEnabled);
+                    KeyboardModeMonitorDelegate(di.IsEnabled);
                 }
             }
         }

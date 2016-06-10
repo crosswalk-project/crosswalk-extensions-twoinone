@@ -15,11 +15,11 @@ namespace xwalk
         {
             native_ = native;
             _keyboardMonitor = new KeyboardMonitor();
-            _keyboardMonitor.MonitorKeyboardDelegate = onMonitorKeyboard;
+            _keyboardMonitor.KeyboardModeMonitorDelegate = onMonitorKeyboard;
             _keyboardMonitor.start();
 
             _tabletMonitor = new TabletMonitor();
-            _tabletMonitor.MonitorTabletDelegate = onMonitorTablet;
+            _tabletMonitor.TabletModeDelegate = onMonitorTablet;
             _tabletMonitor.start();
         }
 

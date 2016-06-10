@@ -8,8 +8,8 @@ namespace xwalk
 {
     class TabletMonitor : MonitorInterface
     {
-        public ModeResponse MonitorTabletDelegate;
-        public delegate void ModeResponse(bool isTablet);
+        public delegate void TabletMode(bool isTablet);
+        public TabletMode TabletModeDelegate;
 
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -31,7 +31,7 @@ namespace xwalk
                 if (_isTablet != tm)
                 {
                     _isTablet = tm;
-                    MonitorTabletDelegate(_isTablet);
+                    TabletModeDelegate(_isTablet);
                 }
                 return _isTablet;
             }
