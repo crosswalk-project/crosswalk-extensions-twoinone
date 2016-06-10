@@ -31,6 +31,9 @@ namespace xwalk
 
         private void onEmulatorTabletMonitorChange(bool isTablet)
         {
+            // Go into emulated mode
+            this.stop();
+
             if (isTablet != _isTablet)
             {
                 _isTablet = isTablet;
@@ -69,6 +72,9 @@ namespace xwalk
             return _timer == null;
         }
 
+        // FIXME need to figure out a better way of listening 
+        // to changes, but it involves WM magic, and this might
+        // be good enough for now.
         private void timerCb(object state)
         {
             _isTablet = this.IsTablet;
