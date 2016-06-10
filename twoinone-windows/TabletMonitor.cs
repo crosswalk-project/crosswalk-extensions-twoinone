@@ -57,14 +57,17 @@ namespace xwalk
 
         public void start()
         {
-            _timer = new System.Threading.Timer(timerCb, null, 500, System.Threading.Timeout.Infinite);
+            _timer = new System.Threading.Timer(timerCb, null, 0, 500);
         }
 
         public void stop()
         {
-            _timer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
-            _timer.Dispose();
-            _timer = null;
+            if (_timer != null)
+            {
+                _timer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
+                _timer.Dispose();
+                _timer = null;
+            }
         }
 
         public bool isRunning()
