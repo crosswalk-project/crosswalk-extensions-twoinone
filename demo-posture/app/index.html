@@ -69,6 +69,23 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>..\..\crosswalk64-19.48.5
         </script>
     </head>
     <body onload="init()" style="background-color: #0071c5">
+
+        <img src="crosswalkproject-logo-horizontal-light.png" style="float: right; width: 200px; height: auto" />
+
+        Status of &quot;twoinone&quot; extension: <input style="border:none; background-color: #0071c5; color: black;" id="status" type="text" value="" readonly>
+        <script>
+            var status = 'loading failed';
+            try {
+                status = twoinone ? "loaded" : "";
+                twoinone.log(function(msg) {
+                    // alert(msg);
+                });
+            } catch (e) {
+                
+            }
+            document.getElementById('status').value = status;
+        </script>
+        <br />
         <input id="keyboard" type="button" value="Test" />
         <input id="tablet" type="button" value="Tablet?" onclick="queryTablet()" />
         <script>
@@ -84,21 +101,8 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>..\..\crosswalk64-19.48.5
             }
             
         </script>
-        <p>
-        Status of &quot;twoinone&quot; extension: <input style="border:none; background-color: 0071c5; color: black;" id="status" type="text" value="" readonly>
-        <script>
-            var status = 'loading failed';
-            try {
-                status = twoinone ? "loaded" : "";
-                twoinone.log(function(msg) {
-                    // alert(msg);
-                });
-            } catch (e) {
-                
-            }
-            document.getElementById('status').value = status;
-        </script>
-    </p>
+
         <div class="element"><img id="icon" onclick="test()"/></div>
+
     </body>
 </html>
