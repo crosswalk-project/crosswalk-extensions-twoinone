@@ -82,11 +82,11 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>..\..\crosswalk64-19.48.5
             
             function main() {
 
-            _icons = [ document.getElementById("iconLaptop"),
-                       document.getElementById("iconTablet"),
-                       document.getElementById("iconTent"),
-                       document.getElementById("iconCurtain")
-                     ];
+                _icons = [ document.getElementById("iconLaptop"),
+                           document.getElementById("iconTablet"),
+                           document.getElementById("iconTent"),
+                           document.getElementById("iconCurtain")
+                         ];
                 
                 if (typeof twoinone !== "undefined") {
                     
@@ -110,6 +110,15 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>..\..\crosswalk64-19.48.5
                     document.getElementById('keyboard').value = "twoinone extension not available";
                     
                 }
+
+                var _nMoves = 0;
+                window.addEventListener("deviceorientation", function(event) {
+                    // process event.alpha, event.beta and event.gamma
+                    _nMoves++;
+                    console.log(" " + _nMoves);
+                    document.getElementById('orientation').value = "" + _nMoves + " " + event.alpha + " " + event.beta + " " + event.gamma;
+                }, true);
+
             }
         </script>
     </head>
@@ -117,6 +126,7 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>..\..\crosswalk64-19.48.5
 
         <div style="position: absolute; bottom: 10px">
             <input id="keyboard" type="button" value="Test" onclick="test()" />
+            <input id="orientation" type="button" value="Test" />
         </div>
         
         <div class="element">
