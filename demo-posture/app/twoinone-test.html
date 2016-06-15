@@ -1,0 +1,35 @@
+
+<html>
+    <head>
+        <script src="twoinone.js" ></script>
+        <script>
+            function main() {
+
+                var states = [];
+                states[TwoinoneOrientation.UNDEFINED] = "undefined";
+                states[TwoinoneOrientation.TENT] = "tent";
+                states[TwoinoneOrientation.CURTAIN] = "curtain";
+
+                var toOrientation = new TwoinoneOrientation();
+                var nUpdates = 0;
+                toOrientation.onchanged(function (toState) {
+                    nUpdates++;
+                    document.getElementById("state").value = states[toState] + " " + nUpdates;
+                });
+                document.getElementById("state").value = "undefined";
+
+                window.addEventListener("deviceorientation", function (event) {
+                    document.getElementById("coordinates").value = Math.round(event.alpha) + " " +
+                                                                   Math.round(event.beta) + " " +
+                                                                   Math.round(event.gamma);
+
+                    toOrientation.update(event.alpha, event.beta, event.gamma);
+                });
+            }
+        </script>
+    </head>
+    <body onload="main()">
+        <input id="coordinates" type="button" />
+        <input id="state" type="button" />
+    </body>
+</html>  

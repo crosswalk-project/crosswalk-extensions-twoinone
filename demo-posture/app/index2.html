@@ -115,8 +115,11 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>..\..\crosswalk64-19.48.5
                 window.addEventListener("deviceorientation", function(event) {
                     // process event.alpha, event.beta and event.gamma
                     _nMoves++;
-                    console.log(" " + _nMoves);
-                    document.getElementById('orientation').value = "" + _nMoves + " " + event.alpha + " " + event.beta + " " + event.gamma;
+                    // console.log(" " + _nMoves);
+                    var val = "" + Math.round(event.alpha) + " " +
+                                   Math.round(event.beta) + " " +
+                                   Math.round(event.gamma);
+                    document.getElementById('orientation').value = val;
                 }, true);
 
             }

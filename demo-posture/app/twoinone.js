@@ -4,8 +4,15 @@
  */
 function TwoinoneOrientation() {
 
+    this._orientation = TwoinoneOrientation.UNINITIALIZED;
+
     this._listeners = [];
 }
+
+/**
+ * @constant
+ */
+TwoinoneOrientation.UNINITIALIZED = -1;
 
 /**
  * @constant
@@ -35,6 +42,7 @@ function(alpha, beta, gamma) {
         beta  >= -45 && beta  <=  45) {
 
         this._emit(TwoinoneOrientation.TENT);
+        return;
     }
 
     // Curtain
@@ -43,7 +51,10 @@ function(alpha, beta, gamma) {
         beta >= -89 && beta <= -80 ) {
 
         this._emit(TwoinoneOrientation.CURTAIN);
+        return;
     }
+
+    this._emit(TwoinoneOrientation.UNDEFINED);
 };
 
 /**
@@ -52,9 +63,12 @@ function(alpha, beta, gamma) {
 TwoinoneOrientation.prototype._emit =
 function(orientation) {
 
-    this._listeners.forEach(function (callback) {
-        callback(orientation);
-    });
+    if (orientation != this._orientation) {
+        this._orientation = orientation;
+        this._listeners.forEach(function (callback) {
+            callback(orientation);
+        });
+    }
 };
 
 /**
