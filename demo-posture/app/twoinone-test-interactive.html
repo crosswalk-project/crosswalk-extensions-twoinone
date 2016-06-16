@@ -6,15 +6,16 @@
             function main() {
 
                 var states = [];
-                states[TwoinoneOrientation.UNDEFINED] = "undefined";
-                states[TwoinoneOrientation.TENT] = "tent";
-                states[TwoinoneOrientation.CURTAIN] = "curtain";
+                states[TwoinonePosture.LAPTOP] = "laptop";
+                states[TwoinonePosture.TABLET] = "tablet";
+                states[TwoinonePosture.TENT] = "tent";
+                states[TwoinonePosture.CURTAIN] = "curtain";
 
-                var toOrientation = new TwoinoneOrientation();
+                var tioOrientation = new TwoinonePosture();
                 var nUpdates = 0;
-                toOrientation.onchanged(function (toState) {
+                tioOrientation.onchanged(function (tioState) {
                     nUpdates++;
-                    document.getElementById("state").value = states[toState] + " " + nUpdates;
+                    document.getElementById("state").value = states[tioState] + " " + nUpdates;
                 });
                 document.getElementById("state").value = "undefined";
 
@@ -23,7 +24,7 @@
                                                                    Math.round(event.beta) + " " +
                                                                    Math.round(event.gamma);
 
-                    toOrientation.update(event.alpha, event.beta, event.gamma);
+                    tioOrientation.update(event.alpha, event.beta, event.gamma);
                 });
             }
         </script>
