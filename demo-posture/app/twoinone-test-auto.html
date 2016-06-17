@@ -14,21 +14,38 @@ function assertEqual(a, b) {
     }
 }
 
-var tests = [
-    function (tioPosture, tioEmulator) {
-        tioEmulator.
-    }
-];
+var _tests = {
+    
+    testDefault: function (tioPosture, tioEmulator) {
+        assertEqual(tioPosture.orientation, TwoinonePosture.UNDEFINED);
+    },
+
+};
 
 function main() {
 
-    
+    document.write("<p>" + Object.keys(_tests).length + " Tests ...</p>");
+
+    try {
+        var tio = typeof twoinone !== "undefined" ? twoinone : null;
+        Object.keys(_tests).forEach(function (key) {
+            console.log(key);
+            var tioEmulator = new TwoinoneExtensionEmulation();
+            var tioPosture = new TwoinonePosture(tioEmulator);
+            _tests[key](tioPosture, tioEmulator)
+            document.write(key + " ... OK<br />");
+        });
+        document.write("<p>" + Object.keys(_tests).length + " Tests OK");
+    } catch (e) {
+        document.write("Error");
+    }
 }
 
         </script>
     </head>
     <body onload="main()">
-        <input id="coordinates" type="button" />
-        <input id="state" type="button" />
+        <!-- input id="cases" type="button" />
+        <input id="asserts" type="button" />
+        <input id="result" type="button" / -->
     </body>
 </html>  

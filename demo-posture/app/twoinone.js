@@ -4,51 +4,53 @@
  */
 function TwoinonePosture(tioExtension) {
 
-    if (typeof tioExtension !== "undefined") {
-        this._tioExtension = tioExtension;
-        this._tioExtension.monitorTablet(function (isTablet) {
-            // tablet-mode updates happen only in response to
-            // update() with fresh angles
-            if (!isTablet) {
-                this._emit(TwoinonePosture.LAPTOP);
-            }
-        }.bind(this));
-    } else {
-        this._tioExtension = null;
-    }
+    this._tioExtension = tioExtension;
+    this._tioExtension.monitorTablet(function (isTablet) {
+        // tablet-mode updates happen only in response to
+        // update() with fresh angles
+        if (!isTablet) {
+            this._emit(TwoinonePosture.LAPTOP);
+        }
+    }.bind(this));
 
-    this._orientation = TwoinonePosture.UNINITIALIZED;
+    this._orientation = TwoinonePosture.UNDEFINED;
 
     this._listeners = [];
 }
 
-Object.defineProperty(TwoinonePosture.prototype, "UNINITIALIZED", {
+Object.defineProperty(TwoinonePosture, "UNDEFINED", {
     get: function() {
         return -1;
     }
 });
 
-Object.defineProperty(TwoinonePosture.prototype, "LAPTOP", {
+Object.defineProperty(TwoinonePosture, "LAPTOP", {
     get: function() {
         return 0;
     }
 });
 
-Object.defineProperty(TwoinonePosture.prototype, "TABLET", {
+Object.defineProperty(TwoinonePosture, "TABLET", {
     get: function() {
         return 1;
     }
 });
 
-Object.defineProperty(TwoinonePosture.prototype, "TENT", {
+Object.defineProperty(TwoinonePosture, "TENT", {
     get: function() {
         return 2;
     }
 });
 
-Object.defineProperty(TwoinonePosture.prototype, "CURTAIN", {
+Object.defineProperty(TwoinonePosture, "CURTAIN", {
     get: function() {
         return 3;
+    }
+});
+
+Object.defineProperty(TwoinonePosture.prototype, "orientation", {
+    get: function() {
+        return this._orientation;
     }
 });
 
@@ -154,5 +156,5 @@ function() {
 
     this._listeners.forEach(function (callback) {
         callback(this._isTablet);
-    }
+    }.bind(this))
 };
