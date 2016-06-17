@@ -132,7 +132,7 @@ TwoinoneExtensionEmulation.prototype.setIsTablet =
 function(value) {
 
     var boolValue = value ? true : false;
-    if (boolValue != this._isTable) {
+    if (boolValue != this._isTablet) {
         this._isTablet = boolValue;
         this._emit();
     }
