@@ -11,6 +11,8 @@ namespace xwalk
     {
         static void Main(string[] args)
         {
+            TabletMonitorFactory.createMonitor(null);
+
             if (args.Length > 0 && args[0] == "emulator")
             {
                 runEmulator();

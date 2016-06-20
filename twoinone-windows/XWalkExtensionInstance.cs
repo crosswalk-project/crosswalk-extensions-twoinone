@@ -9,7 +9,7 @@ namespace xwalk
     public class XWalkExtensionInstance
     {
         private KeyboardMonitor _keyboardMonitor;
-        private TabletMonitor _tabletMonitor;
+        private Win8TabletMonitor _tabletMonitor;
         private Emulator _emulator;
 
         public XWalkExtensionInstance(dynamic native)
@@ -22,7 +22,7 @@ namespace xwalk
             _keyboardMonitor.KeyboardModeMonitorDelegate = onMonitorKeyboard;
             _keyboardMonitor.start();
 
-            _tabletMonitor = new TabletMonitor(_emulator);
+            _tabletMonitor = new Win8TabletMonitor(_emulator);
             _tabletMonitor.TabletModeDelegate = onMonitorTablet;
             _tabletMonitor.start();
         }
