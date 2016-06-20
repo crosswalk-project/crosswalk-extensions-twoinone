@@ -17,7 +17,16 @@ function assertEqual(a, b) {
 var _tests = {
     
     testDefault: function (tioPosture, tioEmulator) {
-        assertEqual(tioPosture.orientation, TwoinonePosture.UNDEFINED);
+        assertEqual(tioPosture.orientation, TwoinonePosture.LAPTOP);
+    },
+
+    testLaptop: function (tioPosture, tioEmulator) {
+        var cbo;
+        tioPosture.onchanged(function (orientation) {
+            cbo = orientation;
+        });
+        tioEmulator.setIsTablet(true);
+        assertEqual(tioPosture.orientation, cbo);
     },
 
 };
@@ -30,7 +39,7 @@ function main() {
         var tio = typeof twoinone !== "undefined" ? twoinone : null;
         Object.keys(_tests).forEach(function (key) {
             console.log(key);
-            var tioEmulator = new TwoinoneExtensionEmulation();
+            var tioEmulator = new TwoinoneExtensionEmulation(false);
             var tioPosture = new TwoinonePosture(tioEmulator);
             _tests[key](tioPosture, tioEmulator)
             document.write(key + " ... OK<br />");

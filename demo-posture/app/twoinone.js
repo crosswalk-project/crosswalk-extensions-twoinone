@@ -6,23 +6,24 @@ function TwoinonePosture(tioExtension) {
 
     this._tioExtension = tioExtension;
     this._tioExtension.monitorTablet(function (isTablet) {
-        // tablet-mode updates happen only in response to
-        // update() with fresh angles
-        if (!isTablet) {
+        if (isTablet && !this._updateCalled) {
+            // Emit tablet posture only if update() has never
+            // been called with coordinates.
+            this._emit(TwoinonePosture.TABLET);
+        } else {
             this._emit(TwoinonePosture.LAPTOP);
         }
     }.bind(this));
 
-    this._orientation = TwoinonePosture.UNDEFINED;
+    if (tioExtension.isTablet()) {
+        this._orientation = TwoinonePosture.TABLET;
+    } else {
+        this._orientation = TwoinonePosture.LAPTOP;
+    }
 
     this._listeners = [];
+    this._updateCalled = false;
 }
-
-Object.defineProperty(TwoinonePosture, "UNDEFINED", {
-    get: function() {
-        return -1;
-    }
-});
 
 Object.defineProperty(TwoinonePosture, "LAPTOP", {
     get: function() {
@@ -59,6 +60,8 @@ Object.defineProperty(TwoinonePosture.prototype, "orientation", {
  */
 TwoinonePosture.prototype.update =
 function(alpha, beta, gamma) {
+
+    this._updateCalled = true;
 
     if (this._tioExtension &&
         !this._tioExtension.isTablet()) {
@@ -113,8 +116,9 @@ function(callback) {
 /**
  * @constructor
  */
-function TwoinoneExtensionEmulation() {
+function TwoinoneExtensionEmulation(isTablet) {
 
+    this._isTablet = isTablet ? true : false;
     this._listeners = [];
 }
 
