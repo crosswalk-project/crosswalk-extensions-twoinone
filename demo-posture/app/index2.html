@@ -7,6 +7,9 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>..\..\crosswalk64-19.48.5
     --external-extensions-path=C:\Users\rstaudi\Devel\twoinone-extension\demo-posture\twoinone-extension
     app\manifest.json
 
+C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>
+    ..\..\crosswalk64-20.50.533.5\xwalk.exe --external-extensions-path=C:\Users\rstaudi\Devel\twoinone-extension\demo-posture\twoinone-extension --enable-inspector app\manifest2.json
+
 -->
 
 <html>
@@ -101,6 +104,9 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>..\..\crosswalk64-19.48.5
                         }
                         if (orientation >= 0 && orientation < _icons.length) {
                             _icons[orientation].style.opacity = "1.0";
+                            // hacky way to extract name from element ID just for debug purpose
+                            var tag = _icons[orientation].id.substring(4);
+                            document.getElementById("keyboard").value = tag;
                         } else {
                             console.log("Unexpected orientation " + orientation);
                         }
