@@ -28,6 +28,7 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>..\..\crosswalk64-19.48.5
                 opacity: 0.3;
             }
         </style>
+        <script src="twoinone.js"></script>
         <script>
 
             function fade(img, sign, callback) {
@@ -64,11 +65,11 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>..\..\crosswalk64-19.48.5
                 });
                 return active.length > 0 ? active[0] : null;
             }
-            
+
             var _icons = null;
             var _i = 0;
             function test() {
-                
+
                 var imgOut = findActiveIcon();
                 if (imgOut) {
                     imgOut.style.opacity = "0.3";
@@ -76,39 +77,48 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>..\..\crosswalk64-19.48.5
 
                 var imgIn = _icons[_i % 4];
                 imgIn.style.opacity = "1.0";
-                
+
                 _i++;
             }
-            
+
             function main() {
 
+                // The indices match the TwoinonePosture.LAPTOP TABLET TENT CURTAIN values
                 _icons = [ document.getElementById("iconLaptop"),
                            document.getElementById("iconTablet"),
                            document.getElementById("iconTent"),
                            document.getElementById("iconCurtain")
                          ];
-                
-                if (typeof twoinone !== "undefined") {
-                    
-                    var img = document.getElementById("icon");
-                    img.src = twoinone.isTablet() ? "icon-tablet.png" : "icon-laptop.png";
 
-                    twoinone.monitorTablet(function (isTablet) {                        
-                        fade(img, -1, function() {
-                            img.src = isTablet ? "icon-tablet.png" : "icon-laptop.png";
-                            fade(img, 1, function() {});
-                        });
+                if (typeof twoinone !== "undefined") {
+
+                    var tioPosture = new TwoinonePosture(twoinone);
+
+                    tioPosture.onchanged(function (orientation) {
+                        var active = findActiveIcon();
+                        if (active) {
+                            active.style.opacity = "0.3";
+                        }
+                        if (orientation >= 0 && orientation < _icons.length) {
+                            _icons[orientation].style.opacity = "1.0";
+                        } else {
+                            console.log("Unexpected orientation " + orientation);
+                        }
                     });
 
-                    twoinone.monitorKeyboard(function (haveKeyboard) {
-                        document.getElementById('keyboard').value = haveKeyboard ?
-                                                                    "hardware keyboard attached" :
-                                                                    "no keyboard";
-                    });                
+                    window.addEventListener("deviceorientation", function (event) {
+                        tioPosture.update(event.alpha, event.beta, event.gamma);
+                    });
+
+                    var orientation = tioPosture.orientation;
+                    if (orientation >= 0 && orientation < _icons.length) {
+                        _icons[orientation].style.opacity = "1.0";
+                    }
+
                 } else {
 
                     document.getElementById('keyboard').value = "twoinone extension not available";
-                    
+
                 }
 
                 var _nMoves = 0;

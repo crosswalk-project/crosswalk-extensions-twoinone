@@ -65,7 +65,9 @@ function(alpha, beta, gamma) {
 
     if (this._tioExtension &&
         !this._tioExtension.isTablet()) {
+
         this._emit(TwoinonePosture.LAPTOP);
+        return;
     }
 
     // Tent
@@ -81,7 +83,7 @@ function(alpha, beta, gamma) {
     // Curtain
     // beta 80 .. 90, -89 .. -80
     if (beta >=  80 && beta <=  90 ||
-        beta >= -89 && beta <= -80 ) {
+        beta >= -90 && beta <= -80 ) {
 
         this._emit(TwoinonePosture.CURTAIN);
         return;
