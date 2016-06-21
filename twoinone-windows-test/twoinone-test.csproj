@@ -50,7 +50,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\twoinone-windows-3\twoinone-windows-3.csproj">
+    <ProjectReference Include="..\twoinone-windows\twoinone.csproj">
       <Project>{43d4a0c8-6b14-4fca-85f1-213f97042a2a}</Project>
       <Name>twoinone-windows-3</Name>
     </ProjectReference>
