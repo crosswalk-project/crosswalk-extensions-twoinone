@@ -43,15 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Emulator.cs" />
-    <Compile Include="MonitorInterface.cs" />
-    <Compile Include="TabletMonitorFactory.cs" />
     <Compile Include="TwoinoneTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TabletMonitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\twoinone-windows-3\twoinone-windows-3.csproj">
+      <Project>{43d4a0c8-6b14-4fca-85f1-213f97042a2a}</Project>
+      <Name>twoinone-windows-3</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

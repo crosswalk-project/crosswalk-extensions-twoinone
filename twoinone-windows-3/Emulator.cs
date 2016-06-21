@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace xwalk
 {
-    class Emulator
+    public class Emulator
     {
         public delegate void KeyboardResponse(bool haveKeyboard);
         public KeyboardResponse KeyboardMonitorDelegate;

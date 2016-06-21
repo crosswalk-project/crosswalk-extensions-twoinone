@@ -61,7 +61,12 @@ Object.defineProperty(TwoinonePosture.prototype, "orientation", {
 TwoinonePosture.prototype.update =
 function(alpha, beta, gamma) {
 
-    this._updateCalled = true;
+    // If device orientation is not supported by the device,
+    // one event is emitted with null angles. Catch this
+    // and disregard it.
+    if (alpha != null && beta != null && gamma != null) {
+        this._updateCalled = true;
+    }
 
     if (this._tioExtension &&
         !this._tioExtension.isTablet()) {

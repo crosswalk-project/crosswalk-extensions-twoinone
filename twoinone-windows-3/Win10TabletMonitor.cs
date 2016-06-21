@@ -6,27 +6,19 @@ using System.Threading.Tasks;
 
 namespace xwalk
 {
-    class TabletMonitor : MonitorInterface
+    class Win10TabletMonitor : TabletMonitor
     {
-        public delegate void TabletMode(bool isTablet);
-        public TabletMode TabletModeDelegate;
-
-
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern int GetSystemMetrics(int nIndex);
-        private const int SM_CONVERTABLESLATEMODE = 0x2003;
-
         private System.Threading.Timer _timer = null;
         private bool _isTablet = false;
 
         Emulator _emulator;
 
-        public TabletMonitor(Emulator emulator)
+        public Win10TabletMonitor(Emulator emulator)
         {
             _emulator = emulator;
             emulator.TabletMonitorDelegate = onEmulatorTabletMonitorChange;
 
-            _isTablet = GetSystemMetrics(SM_CONVERTABLESLATEMODE) == 0;
+            _isTablet = readKey() > 0;
         }
 
         private void onEmulatorTabletMonitorChange(bool isTablet)
@@ -41,11 +33,11 @@ namespace xwalk
             }
         }
 
-        public bool IsTablet
+        public override bool IsTablet
         {
             get
             {
-                bool tm = GetSystemMetrics(SM_CONVERTABLESLATEMODE) == 0;
+                bool tm = readKey() > 0;
                 if (_isTablet != tm)
                 {
                     _isTablet = tm;
@@ -55,12 +47,12 @@ namespace xwalk
             }
         }
 
-        public void start()
+        public override void start()
         {
             _timer = new System.Threading.Timer(timerCb, null, 0, 500);
         }
 
-        public void stop()
+        public override void stop()
         {
             if (_timer != null)
             {
@@ -70,7 +62,7 @@ namespace xwalk
             }
         }
 
-        public bool isRunning()
+        public override bool isRunning()
         {
             return _timer == null;
         }
@@ -81,6 +73,11 @@ namespace xwalk
         private void timerCb(object state)
         {
             _isTablet = this.IsTablet;
+        }
+        private int readKey()
+        {
+            object value = Microsoft.Win32.Registry.GetValue("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ImmersiveShell", "TabletMode", -1);
+            return Int32.Parse(value.ToString());
         }
     }
 }

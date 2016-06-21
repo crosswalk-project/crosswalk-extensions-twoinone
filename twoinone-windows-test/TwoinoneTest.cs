@@ -9,18 +9,71 @@ namespace xwalk
 {
     class TwoinoneTest
     {
+        private TabletMonitor _monitor;
+
+        TwoinoneTest(TabletMonitor monitor)
+        {
+            _monitor = monitor;
+            _monitor.TabletModeDelegate = onTabletModeChanged;
+        }
+
+        void run()
+        {
+            // Fudge mainloop
+            int tick = 0;
+            while (true)
+            {
+                Thread.Sleep(500);
+                Console.Write(".");
+                tick++;
+                if (tick % 10 == 0)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("Tablet mode " + _monitor.IsTablet);
+                }
+            }
+        }
+
+        void runEmulator(Emulator emulator)
+        {
+            // Fudge mainloop
+            int tick = 0;
+            while (true)
+            {
+                Thread.Sleep(500);
+                Console.Write(".");
+                tick++;
+                if (tick % 10 == 0)
+                {
+                    Console.WriteLine("");
+                    emulator.IsTablet = !_monitor.IsTablet;
+                }
+            }
+        }
+
+        private void onTabletModeChanged(bool isTablet)
+        {
+            Console.WriteLine("onTabletModeChanged: " + isTablet);
+        }
+
         static void Main(string[] args)
         {
-            TabletMonitorFactory.createMonitor(null);
+            Emulator emulator = new Emulator();
+            TabletMonitor monitor = TabletMonitorFactory.createMonitor(emulator);
+            TwoinoneTest test = new TwoinoneTest(monitor);
 
             if (args.Length > 0 && args[0] == "emulator")
             {
-                runEmulator();
+                test.runEmulator(emulator);
             }
             else
             {
-                run();
+                test.run();
             }
+        }
+    }
+}
+/*
         }
 
         static void run()
@@ -31,19 +84,6 @@ namespace xwalk
             monitor.start();
             Console.WriteLine("Main: " + monitor.IsTablet);
 
-            // Fudge mainloop
-            int tick = 0;
-            while (true)
-            {
-                Thread.Sleep(500);
-                Console.Write(".");
-                tick++;
-                if (tick % 10 == 0)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("Tablet mode " + monitor.IsTablet);
-                }
-            }
         }
 
         static void runEmulator()
@@ -54,27 +94,8 @@ namespace xwalk
             monitor.start();
             Console.WriteLine("Main: " + monitor.IsTablet);
 
-            bool isTabletEmulated = monitor.IsTablet;
 
-            // Fudge mainloop
-            int tick = 0;
-            while (true)
-            {
-                Thread.Sleep(500);
-                Console.Write(".");
-                tick++;
-                if (tick % 10 == 0)
-                {
-                    Console.WriteLine("");
-                    isTabletEmulated = !isTabletEmulated;
-                    emulator.IsTablet = isTabletEmulated;
-                }
-            }
-        }
-
-        private static void onTabletModeChanged(bool isTablet)
-        {
-            Console.WriteLine("onTabletModeChanged: " + isTablet);
         }
     }
 }
+*/

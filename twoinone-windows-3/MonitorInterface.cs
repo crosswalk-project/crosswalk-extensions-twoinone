@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace xwalk
 {
-    interface MonitorInterface
+    public interface MonitorInterface
     {
         void start();
         void stop();
