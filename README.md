@@ -1,4 +1,4 @@
-# Crosswalk Extensions for "two-in-one" hybrid Devices
+# Crosswalk Extensions for "two-in-one" hybrid Laptop/Tablet Devices
 
 Crosswalk extensions to support laptops with detachable or foldable keyboards. Currently only Windows versions 8.x and 10 are supported.
 
