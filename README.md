@@ -35,7 +35,7 @@ Requirements:
 
 4. Open ``twoinone-windows\twoinone.sln`` in Visual Studio 2015 and build the solution.
 
-5. Enter demo dir and run the demo.
+5. Enter demo dir and run the demo. Replace ``<crosswalk>`` with the absolute path to the newly created root directory for this crosswalk extension from step 1.
 
 ```
 > cd demo-posture
