@@ -1,15 +1,15 @@
 {
-  "name": "Keyboard Monitor Demo",
+  "name": "Crosswalk Twoinone Postures Demo",
   "background_color": "#ffffff",
   "display": "standalone",
   "orientation": "any",
   "start_url": "index.html",
-  "xwalk_app_version": "0.3",
+  "xwalk_app_version": "0.2",
   "xwalk_command_line": "--allow-external-extensions-for-remote-sources",
   "xwalk_extensions": [
-    "..\\twoinone-extension"
+    "C:/Users/rstaudi/Devel/twoinone-extension/twoinone-windows/bin/Debug"
   ],
-  "xwalk_package_id": "org.xwalk.twoinone",
+  "xwalk_package_id": "org.crosswalkproject.twoinone",
   "xwalk_target_platforms": [
     "windows"
   ],
