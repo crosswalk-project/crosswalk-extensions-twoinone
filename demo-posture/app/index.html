@@ -31,9 +31,25 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>
                 opacity: 0.3;
             }
         </style>
-        <script src="twoinone.js"></script>
         <script>
+        
+            // Load from source tree if testing with file://
+            (function () {
 
+                var protocol = "file:";
+                var path = null;
+                if (document.URL.substring(0, protocol.length) === protocol) {
+                    path = "../../twoinone-js/twoinone.js";
+                } else {
+                    path = "twoinone.js";
+                }
+    
+                var scriptElement = document.createElement("script");
+                scriptElement.setAttribute("type","text/javascript")
+                scriptElement.setAttribute("src", path)
+                document.getElementsByTagName("head")[0].appendChild(scriptElement);
+            })();
+        
             function fade(img, sign, callback) {
 
                 sign = sign > 0 ? 1 : -1;
@@ -137,7 +153,6 @@ C:\Users\rstaudi\Devel\twoinone-extension\demo-posture>
                                    Math.round(event.gamma);
                     document.getElementById('orientation').value = val;
                 }, true);
-
             }
         </script>
     </head>
