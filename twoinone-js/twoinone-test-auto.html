@@ -2,6 +2,7 @@
 <html>
     <head>
         <script src="twoinone.js" ></script>
+        <script src="twoinone-test-api-loader.js" ></script>
         <script>
 
 var _nAsserts = 0;
@@ -29,9 +30,14 @@ var _tests = {
         assertEqual(tioPosture.orientation, cbo);
     },
 
+    testExtensionApi: function (tioPosture, tioEmulator) {
+        // global variable "exports" is holding the API objects
+        assertEqual(exports != null, true);
+    },
+    
 };
 
-function main() {
+function runTests() {
 
     document.write("<p>" + Object.keys(_tests).length + " Tests ...</p>");
 
@@ -39,15 +45,37 @@ function main() {
         var tio = typeof twoinone !== "undefined" ? twoinone : null;
         Object.keys(_tests).forEach(function (key) {
             console.log(key);
+            document.write(key);
             var tioEmulator = new TwoinoneExtensionEmulation(false);
             var tioPosture = new TwoinonePosture(tioEmulator);
             _tests[key](tioPosture, tioEmulator)
-            document.write(key + " ... OK<br />");
+            document.write(" ... OK<br />");
         });
         document.write("<p>" + Object.keys(_tests).length + " Tests OK");
     } catch (e) {
-        document.write("Error");
+        document.write(" ... Error<br />");
     }
+}
+
+function countDown(counter, callback) {
+
+    counter--;
+    document.write("" + counter + "<br />");
+
+    if (counter == 0)  {
+        callback();
+    } else {
+        window.setTimeout(function () {
+            countDown(counter, callback);
+        }, 1000);
+    }
+}
+
+function main() {
+
+    var exports = twoinone_test_load_api("../twoinone-windows/XWalkExtensionApi.js");
+
+    countDown(4, runTests);
 }
 
         </script>
